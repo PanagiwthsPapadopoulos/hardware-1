@@ -7,7 +7,7 @@
 // `include "home/runner/rom_bytes.data"
 
 
-`timescale 1ns/1ps
+`timescale 1ns/1ns
 
 
 module top_proc_tb;
@@ -28,15 +28,15 @@ module top_proc_tb;
 
     // Instantiate ROM and RAM
     INSTRUCTION_MEMORY rom_inst (
-      .clk(clk),
-      .addr(PC[8:0]),   // Instruction address (word-aligned)
-      .dout(instr)       // Fetched instruction
+        .clk(clk),
+        .addr(PC[8:0]),   // Instruction address (word-aligned)
+        .dout(instr)       // Fetched instruction
     );
 
     DATA_MEMORY ram_inst (
         .clk(clk),
         .we(MemWrite),
-      .addr(dAddress[8:0]), // Data address (word-aligned)
+        .addr(dAddress[8:0]), // Data address (word-aligned)
         .din(dWriteData),
         .dout(dReadData)
     );
@@ -59,8 +59,8 @@ module top_proc_tb;
 
     // Clock generation
     initial begin
-       $dumpfile("dump.vcd"); 
-$dumpvars;
+        $dumpfile("dump.vcd"); 
+        $dumpvars;
         clk = 0;
         forever #5 clk = ~clk;  // 10ns clock period
     end
@@ -69,12 +69,12 @@ $dumpvars;
     initial begin
         // Initialize reset
         rst = 1;
-        #15;
+        #2;
         rst = 0;
 
         // Wait for simulation to complete
         #1000;  // Run the simulation for a sufficient amount of time
-        $stop;
+        $finish;
     end
 
  

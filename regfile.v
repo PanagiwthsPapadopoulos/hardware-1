@@ -24,7 +24,7 @@ module regfile #(parameter DATAWIDTH = 32)
     begin
       if(write) registers[writeReg] = writeData;
         readData1 = registers[readReg1];
-      readData2 = registers[readReg2];
+        readData2 = registers[readReg2];
     end
     
 endmodule

@@ -21,13 +21,22 @@ module datapath #(
     output wire [31:0] WriteBackData     // Δεδομένα για εγγραφή στους καταχωρητές
 );
 
+     // Operation Types
+    localparam RTYPE = 7'b0110011,
+               ITYPE = 7'b0010011,
+               STYPE = 7'b0100011,
+               BTYPE = 7'b1100011,
+               LOAD = 7'b0000011;
+
     // 1. Καταχωρητής Program Counter (PC)
     reg [31:0] currentPC;
     always @(posedge clk or posedge rst) begin
         if (rst)
             currentPC <= INITIAL_PC; // Reset στην αρχική διεύθυνση
-        else if (loadPC)
+        else if (loadPC) begin
             currentPC <= PCSrc ? (currentPC + {{20{instr[31]}}, instr[7], instr[30:25], instr[11:8], 1'b0}) : (currentPC + 4);
+            $display("Updating PC. Instr: %d", instr);
+        end
     end
     assign PC = currentPC;
 
@@ -49,11 +58,25 @@ module datapath #(
     );
 
     // 3. Immediate Generation
-    wire [31:0] imm_I = {{20{instr[31]}}, instr[31:20]}; // Immediate για τύπο I
+    wire [31:0] imm_I_L = {{20{instr[31]}}, instr[31:20]}; // Immediate για τύπο I
     wire [31:0] imm_S = {{20{instr[31]}}, instr[31:25], instr[11:7]}; // Immediate για τύπο S
     wire [31:0] imm_B = {{19{instr[31]}}, instr[31], instr[7], instr[30:25], instr[11:8], 1'b0}; // Immediate για τύπο B
-    wire [31:0] imm = (instr[6:0] == 7'b0000011 || instr[6:0] == 7'b0010011) ? imm_I :  // Load/ALU Immediate
-                      (instr[6:0] == 7'b0100011) ? imm_S : imm_B; // Store/Branch
+    wire [31:0] imm = (STYPE == instr[6:0]) ? imm_S : (BTYPE == instr[6:0]) ? imm_B : imm_I_L;
+
+    // case (instr[6:0])
+    
+    //     ITYPE, LOAD: begin
+    //         imm = imm_I_L;
+    //     end
+    //     STYPE: begin
+    //         imm = imm_S;
+    //     end
+    //     BTYPE: begin
+    //         imm = imm_B;
+    //     end
+
+    // endcase
+
 
     // 4. ALU
     wire [31:0] alu_op1 = readData1; // Πρώτος τελεστής ALU
