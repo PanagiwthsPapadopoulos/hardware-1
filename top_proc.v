@@ -77,10 +77,10 @@ module top_proc #(
                 end
                 EXECUTE: begin
                     // Move to MEMORY for load/store or WRITE_BACK for arithmetic/logical instructions
-                    // if (instr[6:0] == 7'b0000011 || instr[6:0] == 7'b0100011)  // Load or Store
+                    if (instr[6:0] == 7'b0000011 || instr[6:0] == 7'b0100011)  // Load or Store
                         state <= MEMORY;
-                    // else
-                    //     state <= WRITE_BACK;
+                    else
+                       state <= WRITE_BACK;
                 end
                 MEMORY: begin
                     state <= WRITE_BACK;  // Move to WRITE_BACK after memory access
@@ -98,7 +98,7 @@ module top_proc #(
 
     // FSM: Combinational logic for control signals
     always @(*) begin
-        $display("inserting state.   State: %d, instr: %d", state, instr);
+        // $display("inserting state.   State: %d, instr: %d", state, instr);
         // Default control signal values
         PCSrc = 0;
         ALUSrc = 0;
@@ -120,6 +120,8 @@ module top_proc #(
                 // ALU operations depend on the instruction type
                 case (instr[6:0])
                     RTYPE: begin  // R-type (ADD, SUB, etc.)
+
+                        RegWrite = 1;
                         case ({instr[30], instr[14:12]})
                         
                         0111: begin
@@ -149,15 +151,14 @@ module top_proc #(
                         0100: begin
                             ALUCtrl = 4'b0101;
                         end
-
                         endcase
                         
                     end
                     ITYPE: begin  // I-type (ADDI, ANDI, etc.)
                         ALUSrc = 1;  // Use immediate as the second operand
+                        RegWrite = 1;
 
                         case (instr[14:12])
-                        
                         111: begin
                             ALUCtrl = 4'b0000;
                         end
@@ -187,7 +188,7 @@ module top_proc #(
 
                         endcase
                         // ALUCtrl = 4'b0010;
-                        ALUSrc = 1;
+                        
                         
                     end
                     BTYPE: begin  // Branch (BEQ, etc.)
@@ -224,7 +225,7 @@ module top_proc #(
                 endcase
             end
         endcase
-        $display("Exiting state.   State: %d, instr: %d", state, instr);
+        // $display("Exiting state.   State: %d, instr: %d", state, instr);
     end
 
 endmodule

@@ -35,17 +35,17 @@ module datapath #(
             currentPC <= INITIAL_PC; // Reset στην αρχική διεύθυνση
         else if (loadPC) begin
             currentPC <= PCSrc ? (currentPC + {{20{instr[31]}}, instr[7], instr[30:25], instr[11:8], 1'b0}) : (currentPC + 4);
-            $display("Updating PC. Instr: %d", instr);
+            // $display("Updating PC. Instr: %d", instr);
         end
     end
     assign PC = currentPC;
 
     // 2. Register File
     wire [4:0] readReg1 = instr[19:15];  // Rs1
-    wire [4:0] readReg2 = instr[24:20];  // Rs2
+    wire [4:0] readReg2 = (instr[7:0] == ITYPE) ? 5'bxxxxx : instr[24:20];  // Rs2
     wire [4:0] writeReg = instr[11:7];   // Rd
     wire [31:0] readData1, readData2;
-
+    
     regfile register_file (
         .clk(clk),
         .readReg1(readReg1),
@@ -82,6 +82,16 @@ module datapath #(
     wire [31:0] alu_op1 = readData1; // Πρώτος τελεστής ALU
     wire [31:0] alu_op2 = ALUSrc ? imm : readData2; // Επιλογή δεύτερου τελεστή ALU
     wire [31:0] alu_result;
+    reg [31:0] alu_result_latched;
+
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            alu_result_latched <= 32'b0;  // Reset
+        end else if ((instr[6:0] == RTYPE || instr[6:0] == ITYPE) && RegWrite) begin
+            alu_result_latched <= alu_result;  // Latch ALU result for R-type or I-type
+        end
+    end
+
 
     alu alu_unit (
         .op1(alu_op1),
@@ -92,10 +102,10 @@ module datapath #(
     );
 
     // 5. Μνήμη Δεδομένων
-    assign dAddress = alu_result;   // Διεύθυνση δεδομένων στη μνήμη
+    assign dAddress = alu_result_latched;   // Διεύθυνση δεδομένων στη μνήμη
     assign dWriteData = readData2; // Δεδομένα προς εγγραφή στη μνήμη
 
     // 6. Write Back
-    assign WriteBackData = MemToReg ? dReadData : alu_result;
+    assign WriteBackData = MemToReg ? dReadData : alu_result_latched;
 
 endmodule
