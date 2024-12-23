@@ -100,7 +100,7 @@ module top_proc #(
     always @(*) begin
         // $display("inserting state.   State: %d, instr: %d", state, instr);
         // Default control signal values
-        PCSrc = 0;
+        
         ALUSrc = 0;
         RegWrite = 0;
         MemToReg = 0;
@@ -108,56 +108,58 @@ module top_proc #(
         MemWrite = 0;
         loadPC = 0;
         ALUCtrl = 4'b0000;
-
+// $display("Enteed new state");
         case (state)
             FETCH: begin
                 loadPC = 1;  // Increment PC to fetch the next instruction
+                
             end
             DECODE: begin
+                PCSrc = 0;
                 // No additional controls in this state; decode happens implicitly in the datapath
             end
             EXECUTE: begin
                 // ALU operations depend on the instruction type
                 case (instr[6:0])
                     RTYPE: begin  // R-type (ADD, SUB, etc.)
-
+                        // $display("RType operation detected with instr %b", {instr[30], instr[14:12]});
                         RegWrite = 1;
                         case ({instr[30], instr[14:12]})
                         
-                        0111: begin
+                        4'b0111: begin
                             ALUCtrl = 4'b0000;
                         end
-                        0110: begin
+                        4'b0110: begin
                             ALUCtrl = 4'b0001;
                         end
-                        0000: begin
+                        4'b0000: begin
                             ALUCtrl = 4'b0010;
                         end
-                        1000: begin
+                        4'b1000: begin
                             ALUCtrl = 4'b0110;
                         end
-                        0010: begin
+                        4'b0010: begin
                             ALUCtrl = 4'b0100;
                         end
-                        0101: begin
+                        4'b0101: begin
                             ALUCtrl = 4'b1000;
                         end
-                        0001: begin
+                        4'b0001: begin
                             ALUCtrl = 4'b1001;
                         end
-                        1101: begin
+                        4'b1101: begin
                             ALUCtrl = 4'b0101;
                         end
-                        0100: begin
+                        4'b0100: begin
                             ALUCtrl = 4'b0101;
                         end
                         endcase
-                        
+                        // $display("ALUCtrl set to %d", ALUCtrl);
                     end
                     ITYPE: begin  // I-type (ADDI, ANDI, etc.)
                         ALUSrc = 1;  // Use immediate as the second operand
                         RegWrite = 1;
-
+// $display("IType operation detected with instr %d", instr[14:12]);
                         case (instr[14:12])
                         111: begin
                             ALUCtrl = 4'b0000;
@@ -188,7 +190,7 @@ module top_proc #(
 
                         endcase
                         // ALUCtrl = 4'b0010;
-                        
+                        // $display("ALUCtrl set to %d", ALUCtrl);
                         
                     end
                     BTYPE: begin  // Branch (BEQ, etc.)

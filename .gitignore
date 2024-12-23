@@ -3,3 +3,5 @@
 .DS_Store
 output
 .DS_Store
+dump.vcd
+a.out
