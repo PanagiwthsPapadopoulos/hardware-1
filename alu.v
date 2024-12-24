@@ -20,16 +20,16 @@ module alu(
     // ALU combinational logic
     always @(*) begin
         case (alu_op)
-            ALUOP_AND: result = op1 & op2;                        // AND operation
-            ALUOP_OR: result = op1 | op2;                         // OR operation
-            ALUOP_ADD: result = op1 + op2;                        // Addition
-            ALUOP_SUB: result = op1 - op2;                        // Subtraction
-            ALUOP_LESS: result = (op1 < op2) ? 1 : 0;             // Set less than (unsigned)
-            ALUOP_RSHIFT: result = op1 >> op2;                    // Logical right shift
-            ALUOP_LSHIFT: result = op1 << op2;                    // Logical left shift
-            ALUOP_NRSHIFT: result = (op1 >>> op2);                // Arithmetic right shift
-            ALUOP_XOR: result = op1 ^ op2;                        // XOR operation
-            default: result = 32'b0;                              // Default case
+            ALUOP_AND: result = op1 & op2;                                  // AND operation
+            ALUOP_OR: result = op1 | op2;                                   // OR operation
+            ALUOP_ADD: result = op1 + op2;                                  // Addition
+            ALUOP_SUB: result = op1 - op2;                                  // Subtraction
+            ALUOP_LESS: result = ($signed(op1) < $signed(op2)) ? 1 : 0;     // Set less than (signed)             // Set less than (unsigned)
+            ALUOP_RSHIFT: result = op1 >> op2[4:0];                              // Logical right shift
+            ALUOP_LSHIFT: result = op1 << op2[4:0];                              // Logical left shift
+            ALUOP_NRSHIFT: result = $unsigned($signed(op1) >>> op2[4:0]);        // Arithmetic right shift        
+            ALUOP_XOR: result = op1 ^ op2;                                  // XOR operation
+            default: result = 32'b0;                                        // Default case
         endcase
 
         // Set zero flag if result is zero
@@ -37,6 +37,9 @@ module alu(
             zero = 1'b1;
         else
             zero = 1'b0;
+
+        // $display("ALU Inputs: op1 = %d, op2 = %d, alu_op = %b", op1, op2, alu_op);
+
     end
 
 endmodule

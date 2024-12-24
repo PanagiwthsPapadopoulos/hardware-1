@@ -101,7 +101,7 @@ module top_proc #(
         // $display("inserting state.   State: %d, instr: %d", state, instr);
         // Default control signal values
         
-        ALUSrc = 0;
+        // ALUSrc = 0;
         RegWrite = 0;
         MemToReg = 0;
         MemRead = 0;
@@ -148,7 +148,7 @@ module top_proc #(
                             ALUCtrl = 4'b1001;
                         end
                         4'b1101: begin
-                            ALUCtrl = 4'b0101;
+                            ALUCtrl = 4'b1010;
                         end
                         4'b0100: begin
                             ALUCtrl = 4'b0101;
@@ -161,26 +161,26 @@ module top_proc #(
                         RegWrite = 1;
 // $display("IType operation detected with instr %d", instr[14:12]);
                         case (instr[14:12])
-                        111: begin
+                        3'b111: begin
                             ALUCtrl = 4'b0000;
                         end
-                        110: begin
+                        3'b110: begin
                             ALUCtrl = 4'b0001;
                         end
-                        000: begin
+                        3'b000: begin
                             ALUCtrl = 4'b0010;
                         end
-                        010: begin
+                        3'b010: begin
                             ALUCtrl = 4'b0100;
                         end
-                        101: begin
-                            ALUCtrl = instr[30] ? 4'b1010 : 4'b1001;
+                        3'b101: begin
+                            ALUCtrl = instr[30] ? 4'b1010 : 4'b1000;
                             // ALUCtrl = instr[30] ? 4'b0010 :4'b1001;
                         end
-                        001: begin
+                        3'b001: begin
                             ALUCtrl = 4'b1001;
                         end
-                        100: begin
+                        3'b100: begin
                             ALUCtrl = 4'b0101;
                         end
 
@@ -215,6 +215,7 @@ module top_proc #(
                 endcase
             end
             WRITE_BACK: begin
+                ALUSrc = 0;
                 case (instr[6:0])
                     LOAD: begin  // Load (LW)
                         RegWrite = 1;  // Write memory data to the register file

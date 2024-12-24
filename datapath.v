@@ -31,6 +31,8 @@ module datapath #(
     // 1. Καταχωρητής Program Counter (PC)
     reg [31:0] currentPC;
     always @(posedge clk or posedge rst) begin
+            // $display("ALUSrc: %d and immediate value: %d", ALUSrc, imm);
+
         if (rst)
             currentPC <= INITIAL_PC; // Reset στην αρχική διεύθυνση
         else if (loadPC) begin
@@ -62,7 +64,6 @@ module datapath #(
     wire [31:0] imm_S = {{20{instr[31]}}, instr[31:25], instr[11:7]}; // Immediate για τύπο S
     wire [31:0] imm_B = {{19{instr[31]}}, instr[31], instr[7], instr[30:25], instr[11:8], 1'b0}; // Immediate για τύπο B
     wire [31:0] imm = (STYPE == instr[6:0]) ? imm_S : (BTYPE == instr[6:0]) ? imm_B : imm_I_L;
-
     // case (instr[6:0])
     
     //     ITYPE, LOAD: begin

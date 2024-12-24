@@ -73,7 +73,7 @@ module top_proc_tb;
         rst = 0;
 
         // Wait for simulation to complete
-        #1000;  // Run the simulation for a sufficient amount of time
+        #1050;  // Run the simulation for a sufficient amount of time
         $finish;
     end
 
