@@ -1,0 +1,505 @@
+$date
+	Tue Dec 24 21:30:22 2024
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module calc_tb $end
+$var wire 16 ! result [15:0] $end
+$var reg 1 " btnc $end
+$var reg 1 # btnd $end
+$var reg 1 $ btnl $end
+$var reg 1 % btnr $end
+$var reg 1 & btnu $end
+$var reg 1 ' clk $end
+$var reg 16 ( sw [15:0] $end
+$scope module uut $end
+$var wire 1 " btnc $end
+$var wire 1 # btnd $end
+$var wire 1 $ btnl $end
+$var wire 1 % btnr $end
+$var wire 1 & btnu $end
+$var wire 1 ' clk $end
+$var wire 16 ) sw [15:0] $end
+$var wire 1 * zero $end
+$var wire 32 + result [31:0] $end
+$var wire 1 , p2 $end
+$var wire 1 - p1 $end
+$var wire 16 . led [15:0] $end
+$var wire 4 / alu_op [3:0] $end
+$var reg 16 0 accumulator [15:0] $end
+$scope begin genblk1[0] $end
+$var parameter 2 1 i $end
+$upscope $end
+$scope begin genblk1[1] $end
+$var parameter 2 2 i $end
+$upscope $end
+$scope begin genblk1[2] $end
+$var parameter 3 3 i $end
+$upscope $end
+$scope begin genblk1[3] $end
+$var parameter 3 4 i $end
+$upscope $end
+$scope begin genblk1[4] $end
+$var parameter 4 5 i $end
+$upscope $end
+$scope begin genblk1[5] $end
+$var parameter 4 6 i $end
+$upscope $end
+$scope begin genblk1[6] $end
+$var parameter 4 7 i $end
+$upscope $end
+$scope begin genblk1[7] $end
+$var parameter 4 8 i $end
+$upscope $end
+$scope begin genblk1[8] $end
+$var parameter 5 9 i $end
+$upscope $end
+$scope begin genblk1[9] $end
+$var parameter 5 : i $end
+$upscope $end
+$scope begin genblk1[10] $end
+$var parameter 5 ; i $end
+$upscope $end
+$scope begin genblk1[11] $end
+$var parameter 5 < i $end
+$upscope $end
+$scope begin genblk1[12] $end
+$var parameter 5 = i $end
+$upscope $end
+$scope begin genblk1[13] $end
+$var parameter 5 > i $end
+$upscope $end
+$scope begin genblk1[14] $end
+$var parameter 5 ? i $end
+$upscope $end
+$scope begin genblk1[15] $end
+$var parameter 5 @ i $end
+$upscope $end
+$scope module alu $end
+$var wire 32 A op1 [31:0] $end
+$var wire 32 B op2 [31:0] $end
+$var wire 4 C alu_op [3:0] $end
+$var parameter 4 D ALUOP_ADD $end
+$var parameter 4 E ALUOP_AND $end
+$var parameter 4 F ALUOP_LESS $end
+$var parameter 4 G ALUOP_LSHIFT $end
+$var parameter 4 H ALUOP_NRSHIFT $end
+$var parameter 4 I ALUOP_OR $end
+$var parameter 4 J ALUOP_RSHIFT $end
+$var parameter 4 K ALUOP_SUB $end
+$var parameter 4 L ALUOP_XOR $end
+$var reg 32 M result [31:0] $end
+$var reg 1 * zero $end
+$upscope $end
+$scope module calc_enc $end
+$var wire 1 " btnc $end
+$var wire 1 N btncNOT $end
+$var wire 1 $ btnl $end
+$var wire 1 O btnlNOT $end
+$var wire 1 % btnr $end
+$var wire 1 P btnrNOT $end
+$var wire 1 Q w12 $end
+$var wire 1 R w13 $end
+$var wire 1 S w22 $end
+$var wire 1 T w23 $end
+$var wire 1 U w31 $end
+$var wire 1 V w32 $end
+$var wire 1 W w33 $end
+$var wire 1 X w41 $end
+$var wire 1 Y w42 $end
+$var wire 1 Z w43 $end
+$var wire 1 [ w44 $end
+$var wire 4 \ alu_op [3:0] $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+b101 L
+b110 K
+b1000 J
+b1 I
+b1010 H
+b1001 G
+b100 F
+b0 E
+b10 D
+b1111 @
+b1110 ?
+b1101 >
+b1100 =
+b1011 <
+b1010 ;
+b1001 :
+b1000 9
+b111 8
+b110 7
+b101 6
+b100 5
+b11 4
+b10 3
+b1 2
+b0 1
+$end
+#0
+$dumpvars
+b0 \
+0[
+0Z
+0Y
+0X
+0W
+0V
+0U
+0T
+0S
+0R
+0Q
+1P
+1O
+1N
+b0 M
+b0 C
+b0 B
+bx A
+bx 0
+b0 /
+bx .
+x-
+0,
+b0 +
+1*
+b0 )
+b0 (
+0'
+1&
+0%
+0$
+0#
+0"
+bx !
+$end
+#5000
+b0 !
+b0 .
+0-
+b0 A
+b0 0
+1'
+#10000
+0'
+0&
+#15000
+1'
+#20000
+0*
+b11010101001010 +
+b11010101001010 M
+b10 /
+b10 C
+b10 \
+0N
+1S
+1T
+0'
+1"
+b11010101001010 B
+b11010101001010 (
+b11010101001010 )
+#25000
+1'
+#30000
+0'
+1#
+#35000
+b11010101001010 !
+b11010101001010 .
+b110101010010100 +
+b110101010010100 M
+b11010101001010 A
+b11010101001010 0
+1'
+#40000
+0T
+b110 /
+b110 C
+b110 \
+0P
+1V
+b10001100010110 +
+b10001100010110 M
+0'
+1%
+b1001000110100 B
+b1001000110100 (
+b1001000110100 )
+0#
+#45000
+1'
+#50000
+0'
+1#
+#55000
+b10001100010110 !
+b10001100010110 .
+b1000011100010 +
+b1000011100010 M
+b10001100010110 A
+b10001100010110 0
+1'
+#60000
+0*
+1Q
+b1 /
+b1 C
+b1 \
+1N
+0S
+0V
+b11001100010111 +
+b11001100010111 M
+1,
+0'
+0"
+b1000000000001 B
+b1000000000001 (
+b1000000000001 )
+0#
+#65000
+1'
+#70000
+0'
+1#
+#75000
+b11001100010111 !
+b11001100010111 .
+1-
+b11001100010111 A
+b11001100010111 0
+1'
+#80000
+b0 /
+b0 C
+b0 \
+0Q
+1P
+b11000000010000 +
+b11000000010000 M
+0,
+0'
+0%
+b11111111111111111111000011110000 B
+b1111000011110000 (
+b1111000011110000 )
+0#
+#85000
+1'
+#90000
+0'
+1#
+#95000
+b11000000010000 !
+b11000000010000 .
+0-
+b11000000010000 A
+b11000000010000 0
+1'
+#100000
+0*
+b101 /
+b101 C
+b101 \
+0P
+0Z
+0N
+0T
+1V
+1R
+0O
+0U
+0X
+1Y
+b10111110110010 +
+b10111110110010 M
+0'
+1%
+1"
+1$
+b1111110100010 B
+b1111110100010 (
+b1111110100010 )
+0#
+#105000
+1'
+#110000
+0'
+1#
+#115000
+b10111110110010 !
+b10111110110010 .
+b11000000010000 +
+b11000000010000 M
+b10111110110010 A
+b10111110110010 0
+1'
+#120000
+1T
+b10 /
+b10 C
+b10 \
+1S
+1P
+0V
+0R
+1O
+0Y
+b1001101001010100 +
+b1001101001010100 M
+0'
+0%
+0$
+b110101010100010 B
+b110101010100010 (
+b110101010100010 )
+0#
+#125000
+1'
+#130000
+0'
+1#
+#135000
+b1001101001010100 !
+b1001101001010100 .
+b10011110110 +
+b10011110110 M
+b11111111111111111001101001010100 A
+b1001101001010100 0
+1'
+#140000
+1Z
+1U
+1X
+b1001 /
+b1001 C
+b1001 \
+1Q
+0P
+1N
+0S
+0T
+1R
+0O
+b11111111111110011010010101000000 +
+b11111111111110011010010101000000 M
+0'
+1%
+0"
+1$
+b100 B
+b100 (
+b100 )
+0#
+#145000
+1'
+#150000
+0'
+1#
+#155000
+b1010010101000000 !
+b1010010101000000 .
+b11111111111110100101010000000000 +
+b11111111111110100101010000000000 M
+b11111111111111111010010101000000 A
+b1010010101000000 0
+1'
+#160000
+b1010 /
+b1010 C
+b1010 \
+1T
+0U
+0X
+1[
+0Q
+0R
+1P
+0Z
+0N
+1Y
+b11111111111111111101001010100000 +
+b11111111111111111101001010100000 M
+1,
+0'
+0%
+1"
+b1 B
+b1 (
+b1 )
+0#
+#165000
+1'
+#170000
+0'
+1#
+#175000
+b1101001010100000 !
+b1101001010100000 .
+b11111111111111111110100101010000 +
+b11111111111111111110100101010000 M
+b11111111111111111101001010100000 A
+b1101001010100000 0
+1'
+#180000
+1W
+1U
+1X
+b100 /
+b100 C
+b100 \
+0[
+1N
+0T
+0Y
+b1 +
+b1 M
+0'
+0"
+b100011011111111 B
+b100011011111111 (
+b100011011111111 )
+0#
+#185000
+1'
+#190000
+0'
+1#
+#195000
+b1 !
+b1 .
+1-
+b1 A
+b1 0
+1'
+#200000
+0'
+1&
+0#
+#205000
+b0 !
+b0 .
+0-
+b0 A
+b0 0
+1'
+#210000
+0'
+0&
+#215000
+1'
+#220000
+0'

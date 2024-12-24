@@ -28,7 +28,7 @@ module regfile #(parameter DATAWIDTH = 32)
     // readData2 <= registers[readReg2];
   end
 
-  assign readData1 = registers[readReg1];
-  assign readData2 = registers[readReg2];
+  assign readData1 = (write && (writeReg == readReg1)) ? writeData : registers[readReg1];
+  assign readData2 = (write && (writeReg == readReg2)) ? writeData : registers[readReg2];
     
 endmodule
