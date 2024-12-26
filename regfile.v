@@ -24,8 +24,6 @@ module regfile #(parameter DATAWIDTH = 32)
   
   always @(posedge clk) begin
     if(write) registers[writeReg] <= writeData;
-    // readData1 <= registers[readReg1];
-    // readData2 <= registers[readReg2];
   end
 
   assign readData1 = (write && (writeReg == readReg1)) ? writeData : registers[readReg1];
