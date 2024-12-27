@@ -76,11 +76,7 @@ module top_proc #(
                     state <= EXECUTE;  // Decode the instruction and prepare for execution
                 end
                 EXECUTE: begin
-                    // Move to MEMORY for load/store or WRITE_BACK for arithmetic/logical instructions
-                    if (instr[6:0] == 7'b0000011 || instr[6:0] == 7'b0100011)  // Load or Store
-                        state <= MEMORY;
-                    else
-                       state <= WRITE_BACK;
+                    state <= MEMORY;
                 end
                 MEMORY: begin
                     state <= WRITE_BACK;  // Move to WRITE_BACK after memory access
@@ -98,21 +94,16 @@ module top_proc #(
 
     // FSM: Combinational logic for control signals
     always @(*) begin
-        // $display("inserting state.   State: %d, instr: %d", state, instr);
         // Default control signal values
-        
-        // ALUSrc = 0;
         RegWrite = 0;
         MemToReg = 0;
         MemRead = 0;
         MemWrite = 0;
-        loadPC = 0;
         ALUCtrl = 4'b0000;
-// $display("Enteed new state");
+        
         case (state)
             FETCH: begin
-                loadPC = 1;  // Increment PC to fetch the next instruction
-                
+                loadPC = 0;  // Increment PC to fetch the next instruction 
             end
             DECODE: begin
                 PCSrc = 0;
@@ -123,7 +114,6 @@ module top_proc #(
                 case (instr[6:0])
                     RTYPE: begin  // R-type (ADD, SUB, etc.)
                         // $display("RType operation detected with instr %b", {instr[30], instr[14:12]});
-                        RegWrite = 1;
                         case ({instr[30], instr[14:12]})
                         
                         4'b0111: begin
@@ -158,8 +148,6 @@ module top_proc #(
                     end
                     ITYPE: begin  // I-type (ADDI, ANDI, etc.)
                         ALUSrc = 1;  // Use immediate as the second operand
-                        RegWrite = 1;
-// $display("IType operation detected with instr %d", instr[14:12]);
                         case (instr[14:12])
                         3'b111: begin
                             ALUCtrl = 4'b0000;
@@ -198,6 +186,7 @@ module top_proc #(
                         PCSrc = (Zero) ? 1 : 0;  // Branch if condition is met
                     end
                     LOAD, STYPE: begin 
+                        ALUCtrl = 4'b0010;
                         ALUSrc = 1;
                     end
                     
@@ -215,6 +204,7 @@ module top_proc #(
                 endcase
             end
             WRITE_BACK: begin
+                loadPC = 1;
                 ALUSrc = 0;
                 case (instr[6:0])
                     LOAD: begin  // Load (LW)

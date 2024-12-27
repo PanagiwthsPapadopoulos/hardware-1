@@ -83,13 +83,15 @@ module datapath #(
     wire [31:0] alu_op1 = readData1; // Πρώτος τελεστής ALU
     wire [31:0] alu_op2 = ALUSrc ? imm : readData2; // Επιλογή δεύτερου τελεστή ALU
     wire [31:0] alu_result;
-    reg [31:0] alu_result_latched;
+    reg [31:0] EX_MEM, MEM_WB;
 
     always @(posedge clk or posedge rst) begin
         if (rst) begin
-            alu_result_latched <= 32'b0;  // Reset
-        end else if ((instr[6:0] == RTYPE || instr[6:0] == ITYPE) && RegWrite) begin
-            alu_result_latched <= alu_result;  // Latch ALU result for R-type or I-type
+            MEM_WB <= 32'b0;  // Reset
+            EX_MEM <= 32'b0;  // Reset
+        end else begin
+            MEM_WB <= EX_MEM;
+            EX_MEM <= alu_result;  // Latch ALU result for R-type or I-type
         end
     end
 
@@ -103,10 +105,10 @@ module datapath #(
     );
 
     // 5. Μνήμη Δεδομένων
-    assign dAddress = alu_result_latched;   // Διεύθυνση δεδομένων στη μνήμη
+    assign dAddress = EX_MEM;   // Διεύθυνση δεδομένων στη μνήμη
     assign dWriteData = readData2; // Δεδομένα προς εγγραφή στη μνήμη
 
     // 6. Write Back
-    assign WriteBackData = MemToReg ? dReadData : alu_result_latched;
+    assign WriteBackData = MemToReg ? dReadData : MEM_WB;
 
 endmodule
