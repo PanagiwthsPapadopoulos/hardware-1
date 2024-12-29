@@ -100,7 +100,7 @@ module top_proc #(
         MemRead = 0;
         MemWrite = 0;
         ALUCtrl = 4'b0000;
-        
+
         case (state)
             FETCH: begin
                 loadPC = 0;  // Increment PC to fetch the next instruction 

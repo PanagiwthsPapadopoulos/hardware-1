@@ -4,11 +4,8 @@
 `include "datapath.v"
 `include "alu.v"
 `include "regfile.v"
-// `include "home/runner/rom_bytes.data"
-
 
 `timescale 1ns/1ns
-
 
 module top_proc_tb;
 
